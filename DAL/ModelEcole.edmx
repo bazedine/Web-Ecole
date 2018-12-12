@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EcolesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="classe">
+          <Key>
+            <PropertyRef Name="id_classe" />
+          </Key>
+          <Property Name="id_classe" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_classe" Type="nvarchar" MaxLength="50" />
+          <Property Name="effectif_classe" Type="nchar" MaxLength="10" />
+          <Property Name="id_ecole" Type="int" />
+        </EntityType>
+        <EntityType Name="ecole">
+          <Key>
+            <PropertyRef Name="id_ecole" />
+          </Key>
+          <Property Name="id_ecole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_ecole" Type="nvarchar" MaxLength="50" />
+          <Property Name="ville_ecole" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="etudiant">
+          <Key>
+            <PropertyRef Name="id_etudiant" />
+          </Key>
+          <Property Name="id_etudiant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_etudiant" Type="nvarchar" MaxLength="50" />
+          <Property Name="prenom_etudiant" Type="nvarchar" MaxLength="50" />
+          <Property Name="formation_A" Type="nvarchar" MaxLength="50" />
+          <Property Name="formation_B" Type="nvarchar" MaxLength="50" />
+          <Property Name="formation_C" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_classe" Type="int" />
+        </EntityType>
+        <Association Name="FK_classe_Toecole">
+          <End Role="ecole" Type="Self.ecole" Multiplicity="0..1" />
+          <End Role="classe" Type="Self.classe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ecole">
+              <PropertyRef Name="id_ecole" />
+            </Principal>
+            <Dependent Role="classe">
+              <PropertyRef Name="id_ecole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_etudiant_Toclasse">
+          <End Role="classe" Type="Self.classe" Multiplicity="0..1" />
+          <End Role="etudiant" Type="Self.etudiant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="classe">
+              <PropertyRef Name="id_classe" />
+            </Principal>
+            <Dependent Role="etudiant">
+              <PropertyRef Name="id_classe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EcolesModelStoreContainer">
+          <EntitySet Name="classe" EntityType="Self.classe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ecole" EntityType="Self.ecole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="etudiant" EntityType="Self.etudiant" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_classe_Toecole" Association="Self.FK_classe_Toecole">
+            <End Role="ecole" EntitySet="ecole" />
+            <End Role="classe" EntitySet="classe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_etudiant_Toclasse" Association="Self.FK_etudiant_Toclasse">
+            <End Role="classe" EntitySet="classe" />
+            <End Role="etudiant" EntitySet="etudiant" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EcolesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="classe">
+          <Key>
+            <PropertyRef Name="id_classe" />
+          </Key>
+          <Property Name="id_classe" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_classe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="effectif_classe" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="id_ecole" Type="Int32" />
+          <NavigationProperty Name="ecole" Relationship="Self.FK_classe_Toecole" FromRole="classe" ToRole="ecole" />
+          <NavigationProperty Name="etudiants" Relationship="Self.FK_etudiant_Toclasse" FromRole="classe" ToRole="etudiant" />
+        </EntityType>
+        <EntityType Name="ecole">
+          <Key>
+            <PropertyRef Name="id_ecole" />
+          </Key>
+          <Property Name="id_ecole" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_ecole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ville_ecole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="classes" Relationship="Self.FK_classe_Toecole" FromRole="ecole" ToRole="classe" />
+        </EntityType>
+        <EntityType Name="etudiant">
+          <Key>
+            <PropertyRef Name="id_etudiant" />
+          </Key>
+          <Property Name="id_etudiant" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_etudiant" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prenom_etudiant" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="formation_A" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="formation_B" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="formation_C" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_classe" Type="Int32" />
+          <NavigationProperty Name="classe" Relationship="Self.FK_etudiant_Toclasse" FromRole="etudiant" ToRole="classe" />
+        </EntityType>
+        <Association Name="FK_classe_Toecole">
+          <End Role="ecole" Type="Self.ecole" Multiplicity="0..1" />
+          <End Role="classe" Type="Self.classe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ecole">
+              <PropertyRef Name="id_ecole" />
+            </Principal>
+            <Dependent Role="classe">
+              <PropertyRef Name="id_ecole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_etudiant_Toclasse">
+          <End Role="classe" Type="Self.classe" Multiplicity="0..1" />
+          <End Role="etudiant" Type="Self.etudiant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="classe">
+              <PropertyRef Name="id_classe" />
+            </Principal>
+            <Dependent Role="etudiant">
+              <PropertyRef Name="id_classe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="classes" EntityType="Self.classe" />
+          <EntitySet Name="ecoles" EntityType="Self.ecole" />
+          <EntitySet Name="etudiants" EntityType="Self.etudiant" />
+          <AssociationSet Name="FK_classe_Toecole" Association="Self.FK_classe_Toecole">
+            <End Role="ecole" EntitySet="ecoles" />
+            <End Role="classe" EntitySet="classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_etudiant_Toclasse" Association="Self.FK_etudiant_Toclasse">
+            <End Role="classe" EntitySet="classes" />
+            <End Role="etudiant" EntitySet="etudiants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EcolesModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="classes">
+            <EntityTypeMapping TypeName="EcolesModel.classe">
+              <MappingFragment StoreEntitySet="classe">
+                <ScalarProperty Name="id_classe" ColumnName="id_classe" />
+                <ScalarProperty Name="nom_classe" ColumnName="nom_classe" />
+                <ScalarProperty Name="effectif_classe" ColumnName="effectif_classe" />
+                <ScalarProperty Name="id_ecole" ColumnName="id_ecole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ecoles">
+            <EntityTypeMapping TypeName="EcolesModel.ecole">
+              <MappingFragment StoreEntitySet="ecole">
+                <ScalarProperty Name="id_ecole" ColumnName="id_ecole" />
+                <ScalarProperty Name="nom_ecole" ColumnName="nom_ecole" />
+                <ScalarProperty Name="ville_ecole" ColumnName="ville_ecole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="etudiants">
+            <EntityTypeMapping TypeName="EcolesModel.etudiant">
+              <MappingFragment StoreEntitySet="etudiant">
+                <ScalarProperty Name="id_etudiant" ColumnName="id_etudiant" />
+                <ScalarProperty Name="nom_etudiant" ColumnName="nom_etudiant" />
+                <ScalarProperty Name="prenom_etudiant" ColumnName="prenom_etudiant" />
+                <ScalarProperty Name="formation_A" ColumnName="formation_A" />
+                <ScalarProperty Name="formation_B" ColumnName="formation_B" />
+                <ScalarProperty Name="formation_C" ColumnName="formation_C" />
+                <ScalarProperty Name="id_classe" ColumnName="id_classe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
