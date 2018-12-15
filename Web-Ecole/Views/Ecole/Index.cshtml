@@ -1,0 +1,39 @@
+﻿
+@model Web_Ecole.ViewModels.EcoleClasseModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+<div class="boxedForm">
+
+    @using (Html.BeginForm())
+    {
+        Html.EnableClientValidation(true);
+
+        <ul style="margin-top:50px;">
+            <li style="width: 370px">
+                @Html.LabelFor(m => m.ecole)
+                @Html.DropDownListFor(m => m.SelectValue,
+               new SelectList(Model.ecoles, "id_ecole", "nom_ecole"), "-Please select a category-")
+                @Html.ValidationMessageFor(m => m.ecole.id_ecole)
+            </li>
+            <li style="width: 370px;margin-top:10px;">
+                @Html.LabelFor(m => m.nom_classe)
+                @Html.EditorFor(m => m.nom_classe)
+                @Html.ValidationMessageFor(m => m.nom_classe)
+            </li>
+        </ul>
+        <div class="action">
+            <button class="actionButton" type="submit">
+                <span>Save</span>
+            </button>
+        </div>
+    }
+
+
+</div>
