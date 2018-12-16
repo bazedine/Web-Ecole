@@ -29,5 +29,15 @@ namespace Web_Ecole.Controllers
 
             return Json(Startelist, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetstatListEtudiant(int id_classe)
+        {
+
+            Repo repository = new Repo();
+            var ListeClasse = repository.GetEtudiant();
+            List<etudiant> Startelist = ListeClasse.Where(x => x.id_classe == id_classe).ToList();
+
+            return Json(Startelist, JsonRequestBehavior.AllowGet);
+        }
     }
 }

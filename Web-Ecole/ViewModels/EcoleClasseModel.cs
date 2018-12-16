@@ -11,6 +11,7 @@ namespace Web_Ecole.ViewModels
     {
         public int id_classe { get; set; }
         public int id_ecole { get; set; }
+        public int id_etudiant { get; set; }
         public string nom_classe { get; set; }
         public int SelectValue { get; set; }
 
